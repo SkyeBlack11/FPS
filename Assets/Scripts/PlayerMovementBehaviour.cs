@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class PlayerMovementBehaviour : MonoBehaviour
 {
-    [SerializeField] private float _movementSpeed, _rotationSpeed;
+    [SerializeField] private float _movementSpeed;
+    //[SerializeField] GameObject _wall;
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        
     }
 
     // Update is called once per frame
@@ -36,12 +37,17 @@ public class PlayerMovementBehaviour : MonoBehaviour
             movementDirection.x * transform.right) *
             _movementSpeed * Time.deltaTime;        
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "EndPoint")
+        {
+            Debug.Log("Finish!");
+        }
+        
+    }
 
     void Update()
     {
-        Vector3 rotation = Vector3.zero;
-        rotation.y = Input.GetAxis("Mouse X"); //because unity's mouse x axis is actually our regular y and vice versa.
-        transform.Rotate(rotation * Time.deltaTime * _rotationSpeed);
 
     }
 }

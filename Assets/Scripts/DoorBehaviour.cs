@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DoorBehaviour : MonoBehaviour
 {
-    [SerializeField] private bool _playerInRange;
+    [SerializeField] private KeyBehaviour _keyForDoor;
+    private bool _playerInRange;
     void Start()
     {
         
@@ -13,9 +14,21 @@ public class DoorBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && _playerInRange)
+        if (!_playerInRange) return;
+
+        
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            Destroy(gameObject);
+            foreach (KeyBehaviour key in PlayerController.Instance.KeysCollected)
+            {
+                if(key == _keyForDoor)
+                {
+                   Destroy(gameObject);
+                    return;
+                }
+               
+            }
+            
         }
     }
 
@@ -23,7 +36,7 @@ public class DoorBehaviour : MonoBehaviour
     {
         if (other.gameObject.tag != "Player") return;
         _playerInRange = true;
-        Debug.Log("Ouch");
+        //Debug.Log("Ouch");
     }
 
     private void OnTriggerExit(Collider other)

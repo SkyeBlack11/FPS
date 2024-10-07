@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class DoorBehaviour : MonoBehaviour
 {
+    public Color DoorColor;
     [SerializeField] private KeyBehaviour _keyForDoor;
     private bool _playerInRange;
     void Start()
     {
-        
+        GetComponent<MeshRenderer>().material.color = DoorColor;
+        _keyForDoor.GetComponent<MeshRenderer>().material.color = DoorColor;
     }
 
     // Update is called once per frame

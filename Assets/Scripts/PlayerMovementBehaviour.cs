@@ -5,10 +5,10 @@ using UnityEngine;
 public class PlayerMovementBehaviour : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed;
-    //[SerializeField] GameObject _wall;
+    private Rigidbody _rigidBody;
     void Start()
     {
-        
+        _rigidBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -31,11 +31,9 @@ public class PlayerMovementBehaviour : MonoBehaviour
         {
             movementDirection += new Vector3(1, 0, 0); //Right
         }
-
-        transform.position += 
-            (movementDirection.z * transform.forward +
-            movementDirection.x * transform.right) *
-            _movementSpeed * Time.deltaTime;        
+        movementDirection = Vector3.ClampMagnitude(movementDirection, 1);
+        Vector3 velocity = (movementDirection.z * transform.forward + movementDirection.x * transform.right) *_movementSpeed;
+        _rigidBody.velocity = velocity;
     }
     private void OnCollisionEnter(Collision collision)
     {

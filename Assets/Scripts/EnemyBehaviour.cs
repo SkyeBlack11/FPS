@@ -2,26 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBehaviour : MonoBehaviour
+public class EnemyBehaviour : CharacterBehaviour
 {
-    [SerializeField] private int _maxHealth;
-    private int _currenthealth;
-    void Start()
+    public override void Die()
     {
-        _currenthealth = _maxHealth;
+        transform.Rotate(-75f, 0, 0);
+        GetComponent<EnemyWeaponBehaviour>().enabled = false;
+        GetComponent<EnemyMovementBehaviour>().enabled = false;
     }
 
-    public void Hit()
-    {
-        _currenthealth -= 1;
-        if(_currenthealth <= 0)
-        {
-            transform.Rotate(-75f, 0, 0);
-        }
-
-    }
     void Update()
     {
-        
+        if (GetComponent<EnemyWeaponBehaviour>().enabled == false) return;
+    
     }
 }
